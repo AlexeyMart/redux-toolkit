@@ -1,5 +1,8 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
+// Types
+import { RootState } from "../store";
+
 interface List {
   items: string[];
 }
@@ -29,5 +32,7 @@ const listSlice = createSlice({
 const { actions, reducer } = listSlice;
 
 export const { add, remove } = actions;
+
+export const listSelector = (state: RootState) => state.list.items;
 
 export default reducer;

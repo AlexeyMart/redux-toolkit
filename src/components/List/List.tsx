@@ -4,11 +4,8 @@ import { connect, ConnectedProps } from "react-redux";
 // Styles
 import "./List.css";
 
-// Actions
-import { add, remove } from "../../slices/list";
-
-// Selectors
-import { listSelector } from "../../selectors";
+// Actions, Selectors
+import { add, remove, listSelector } from "../../slices/list";
 
 // Types
 import { RootState } from "../../store";
@@ -34,9 +31,9 @@ function List({ items, add, remove }: PropsFromRedux) {
 
     return (
       <div key={index} className="list-item">
-        <div>{item}</div>
-
         <button onClick={handleRemove}>remove</button>
+
+        <div>{item}</div>
       </div>
     );
   };

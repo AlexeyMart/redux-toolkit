@@ -1,18 +1,15 @@
-import { useSelector, useDispatch } from "react-redux";
+import { useAppSelector, useAppDispatch } from "../../hooks";
 
 // Styles
 import "./Counter.css";
 
-// Actions
-import { increment, decrement } from "../../slices/counter";
-
-// Selectors
-import { counterSelector } from "../../selectors";
+// Actions, Selectors
+import { increment, decrement, counterSelector } from "../../slices/counter";
 
 export default function Counter() {
-  const value = useSelector(counterSelector);
+  const value = useAppSelector(counterSelector);
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const handleIncrement = () => {
     dispatch(increment());
