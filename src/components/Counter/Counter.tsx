@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import "./Counter.css";
 
 // Actions
-import { increment, decrement } from "../../reducers/counter";
+import { increment, decrement } from "../../slices/counter";
 
 // Selectors
 import { counterSelector } from "../../selectors";

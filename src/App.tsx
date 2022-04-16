@@ -4,6 +4,7 @@ import "./App.css";
 
 // Components
 import Counter from "./components/Counter/Counter";
+import List from "./components/List/List";
 
 function App() {
   return (
@@ -13,6 +14,8 @@ function App() {
       </header>
 
       <Counter />
+
+      <List />
     </div>
   );
 }

@@ -1,11 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
 
-// Reducers
-import counter from "../reducers/counter";
+// Slices
+import counter from "../slices/counter";
+import list from "../slices/list";
 
 const store = configureStore({
   reducer: {
     counter,
+    list,
   },
 });
 
