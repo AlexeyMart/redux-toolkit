@@ -1,0 +1,9 @@
+.counter {
+  margin-top: 30px;
+}
+
+.counter-buttons {
+  display: flex;
+  justify-content: center;
+  column-gap: 20px;
+}
