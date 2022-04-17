@@ -3,15 +3,15 @@ import {
   createAsyncThunk,
   PayloadAction,
   CaseReducer,
+  Draft,
 } from "@reduxjs/toolkit";
 
 // Types
 import { RootState } from "../store";
-import { WritableDraft } from "immer/dist/internal";
 
 export const fetchPosts = createAsyncThunk<void, void, { rejectValue: string }>(
   "posts/fetchPosts",
-  async (_, { rejectWithValue, dispatch }) => {
+  async (_, { dispatch, rejectWithValue }) => {
     try {
       const response = await fetch(
         "https://jsonplaceholder.typicode.com/posts?_limit=10"
@@ -34,7 +34,7 @@ export const deletePost = createAsyncThunk<
   void,
   string,
   { rejectValue: string }
->("posts/deletePost", async (id, { rejectWithValue, dispatch }) => {
+>("posts/deletePost", async (id, { dispatch, rejectWithValue }) => {
   try {
     const response = await fetch(
       `https://jsonplaceholder.typicode.com/posts/${id}`,
@@ -54,13 +54,13 @@ export const deletePost = createAsyncThunk<
 });
 
 /** Начало запроса, установка состояния загрузки */
-const setLoading = (state: WritableDraft<Posts>) => {
+const setLoading = (state: Draft<Posts>) => {
   state.error = null;
   state.status = "loading";
 };
 
 /** Установка состояния ошибки */
-const setError = (state: WritableDraft<Posts>, message?: string) => {
+const setError = (state: Draft<Posts>, message?: string) => {
   state.status = "error";
 
   if (message) {
@@ -69,7 +69,7 @@ const setError = (state: WritableDraft<Posts>, message?: string) => {
 };
 
 /** Установка успешного состояния */
-const setSuccess = (state: WritableDraft<Posts>) => {
+const setSuccess = (state: Draft<Posts>) => {
   state.status = "success";
 };
 
