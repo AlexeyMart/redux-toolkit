@@ -68,17 +68,24 @@ const initialState: Posts = {
   error: null,
 };
 
+/** Начало запроса, установка состояния загрузки */
 const setLoading = (state: WritableDraft<Posts>) => {
   state.error = null;
   state.status = "loading";
 };
 
+/** Установка состояния ошибки */
 const setError = (state: WritableDraft<Posts>, message?: string) => {
   state.status = "error";
 
   if (message) {
     state.error = message;
   }
+};
+
+/** Установка успешного состояния */
+const setSuccess = (state: WritableDraft<Posts>) => {
+  state.status = "success";
 };
 
 const postsSlice = createSlice({
@@ -93,7 +100,8 @@ const postsSlice = createSlice({
     builder.addCase(fetchPosts.pending, setLoading);
 
     builder.addCase(fetchPosts.fulfilled, (state, action) => {
-      state.status = "success";
+      setSuccess(state);
+
       state.items = action.payload;
     });
 
@@ -103,9 +111,7 @@ const postsSlice = createSlice({
 
     builder.addCase(deletePost.pending, setLoading);
 
-    builder.addCase(deletePost.fulfilled, (state) => {
-      state.status = "success";
-    });
+    builder.addCase(deletePost.fulfilled, setSuccess);
 
     builder.addCase(deletePost.rejected, (state, action) => {
       setError(state, action.payload);
