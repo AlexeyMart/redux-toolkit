@@ -1,7 +1,8 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 
 // Types
 import { RootState } from "../store";
+import { WritableDraft } from "immer/dist/internal";
 
 export const fetchPosts = createAsyncThunk<
   Post[],
@@ -21,7 +22,30 @@ export const fetchPosts = createAsyncThunk<
 
     return data;
   } catch (error) {
-    return rejectWithValue("Server error");
+    return rejectWithValue("Fetch posts error");
+  }
+});
+
+export const deletePost = createAsyncThunk<
+  void,
+  string,
+  { rejectValue: string }
+>("posts/deletePost", async (id, { rejectWithValue, dispatch }) => {
+  try {
+    const response = await fetch(
+      `https://jsonplaceholder.typicode.com/posts/${id}`,
+      {
+        method: "DELETE",
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error();
+    }
+
+    dispatch(removePost(id));
+  } catch (error) {
+    return rejectWithValue("Delete post error");
   }
 });
 
@@ -44,15 +68,29 @@ const initialState: Posts = {
   error: null,
 };
 
+const setLoading = (state: WritableDraft<Posts>) => {
+  state.error = null;
+  state.status = "loading";
+};
+
+const setError = (state: WritableDraft<Posts>, message?: string) => {
+  state.status = "error";
+
+  if (message) {
+    state.error = message;
+  }
+};
+
 const postsSlice = createSlice({
   name: "posts",
   initialState,
-  reducers: {},
+  reducers: {
+    removePost: (state, action: PayloadAction<string>) => {
+      state.items = state.items.filter(({ id }) => id !== action.payload);
+    },
+  },
   extraReducers: (builder) => {
-    builder.addCase(fetchPosts.pending, (state) => {
-      state.error = null;
-      state.status = "loading";
-    });
+    builder.addCase(fetchPosts.pending, setLoading);
 
     builder.addCase(fetchPosts.fulfilled, (state, action) => {
       state.status = "success";
@@ -60,11 +98,17 @@ const postsSlice = createSlice({
     });
 
     builder.addCase(fetchPosts.rejected, (state, action) => {
-      state.status = "error";
+      setError(state, action.payload);
+    });
 
-      if (action.payload) {
-        state.error = action.payload;
-      }
+    builder.addCase(deletePost.pending, setLoading);
+
+    builder.addCase(deletePost.fulfilled, (state) => {
+      state.status = "success";
+    });
+
+    builder.addCase(deletePost.rejected, (state, action) => {
+      setError(state, action.payload);
     });
   },
 });
@@ -75,6 +119,8 @@ export const postsSelector = (state: RootState) => ({
   error: state.posts.error,
 });
 
-const { reducer } = postsSlice;
+const { reducer, actions } = postsSlice;
+
+const { removePost } = actions;
 
 export default reducer;

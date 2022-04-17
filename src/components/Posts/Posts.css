@@ -6,6 +6,18 @@
   align-items: center;
 }
 
+.posts-status-error {
+  color: red;
+}
+
+.posts-status-loading {
+  color: blue;
+}
+
+.posts-status-success {
+  color: green;
+}
+
 .post {
   display: flex;
   flex-direction: column;
