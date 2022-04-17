@@ -1,7 +1,7 @@
+import { createSlice } from "@reduxjs/toolkit";
+
 // Types
 import { RootState } from "../store";
-
-import { createSlice } from "@reduxjs/toolkit";
 
 interface Counter {
   value: number;

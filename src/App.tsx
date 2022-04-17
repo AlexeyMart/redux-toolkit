@@ -1,10 +1,10 @@
-import React from "react";
 import logo from "./logo.svg";
 import "./App.css";
 
 // Components
 import Counter from "./components/Counter/Counter";
 import List from "./components/List/List";
+import Posts from "./components/Posts/Posts";
 
 function App() {
   return (
@@ -16,6 +16,8 @@ function App() {
       <Counter />
 
       <List />
+
+      <Posts />
     </div>
   );
 }

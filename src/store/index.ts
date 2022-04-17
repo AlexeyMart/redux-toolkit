@@ -3,11 +3,13 @@ import { configureStore } from "@reduxjs/toolkit";
 // Slices
 import counter from "../slices/counter";
 import list from "../slices/list";
+import posts from "../slices/posts";
 
 const store = configureStore({
   reducer: {
     counter,
     list,
+    posts,
   },
 });
 
