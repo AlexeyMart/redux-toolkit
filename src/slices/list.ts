@@ -31,7 +31,9 @@ const listSlice = createSlice({
 
 const { actions, reducer } = listSlice;
 
-export const { add, remove } = actions;
+export const remove = actions.remove;
+
+export const add = actions.add;
 
 export const listSelector = (state: RootState) => state.list.items;
 
